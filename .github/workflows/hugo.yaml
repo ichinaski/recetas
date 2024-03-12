@@ -30,6 +30,7 @@ defaults:
 jobs:
   # Build job
   build:
+    environment: GSPREAD_CREDENTIALS
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.123.7
