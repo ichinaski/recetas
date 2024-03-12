@@ -75,7 +75,7 @@ draft = false
 if __name__ == "__main__":
     sheet_id = os.getenv("SHEET_ID")
     service_account_data = os.getenv("GSPREAD_SERVICE_ACCOUNT")
-    print(sheet_id)
+    print("sheet_id: ", sheet_id)
     csv_file = "spreadsheet.csv"
 
     # Open the public spreadsheet
