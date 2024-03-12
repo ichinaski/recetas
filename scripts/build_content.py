@@ -74,9 +74,13 @@ draft = false
 
 if __name__ == "__main__":
     sheet_id = os.getenv("SHEET_ID")
-    service_account_data = os.getenv("GSPREAD_SERVICE_ACCOUNT")
-    print("sheet_id: ", sheet_id)
+    service_account_data = os.getenv("GSPREAD_SERVICE_ACCOUNT", "")
+    print("sheet_id: ", sheet_id, "")
     csv_file = "spreadsheet.csv"
+
+    # Ensure service_account_data has outer quotes
+    if not service_account_data.startswith('"') or not service_account_data.endswith('"'):
+        service_account_data = f'"{service_account_data}"'
 
     # Open the public spreadsheet
     sheet = open_sheet(sheet_id, service_account_data)
