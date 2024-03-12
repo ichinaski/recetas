@@ -61,7 +61,8 @@ jobs:
           pip install -r ./scripts/requirements.txt
       - name: Build content (python)
         env:
-          GSPREAD_SERVICE_ACCOUNT: {{ secrets.GSPREAD_SERVICE_ACCOUNT }}
+          GSPREAD_SERVICE_ACCOUNT: ${{ secrets.GSPREAD_SERVICE_ACCOUNT }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
         run: python3 ./scripts/build_content.py
       - name: Build with Hugo
         env:
