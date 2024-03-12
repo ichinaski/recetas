@@ -50,8 +50,16 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      - name: Create pages
-        run: cp content/recetas/test.md content/recetas/test-2.md && echo "test number 2" >> content/recetas/test-2.md
+      - name: Install Python dependencies
+        uses: actions/setup-python@v5
+          with:
+            python-version: '3.10'
+            cache: 'pip' # caching pip dependencies
+        run: pip install -r ./scripts/requirements.txt
+      - name: Build content (python)
+        env:
+          GSPREAD_SERVICE_ACCOUNT: {{ secrets.GSPREAD_SERVICE_ACCOUNT }}
+        run: python3 ./scripts/build_content.py
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
@@ -78,5 +86,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
