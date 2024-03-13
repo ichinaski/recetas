@@ -2,8 +2,10 @@ import gspread
 import csv
 import os
 import json
+from datetime import datetime
 
 # Define column indexes
+DATE_INDEX = 0
 TITLE_INDEX = 2
 DIFFICULTY_INDEX = 3
 TIME_INDEX = 4
@@ -33,6 +35,7 @@ def create_markdown_files(csv_file):
         next(csvreader)
 
         for row in csvreader:
+            date_str = row[DATE_INDEX]
             title = row[TITLE_INDEX]
             difficulty = row[DIFFICULTY_INDEX]
             time = row[TIME_INDEX]
@@ -41,10 +44,12 @@ def create_markdown_files(csv_file):
             preparation = row[PREPARATION_INDEX]
             notes = row[NOTES_INDEX]
 
+            date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
+
             # Create Markdown content
             markdown_content = f"""+++
 title = '{title}'
-date = 2024-03-12T15:46:56+01:00
+date = {date}
 draft = false
 +++
 
@@ -77,7 +82,6 @@ draft = false
 if __name__ == "__main__":
     sheet_id = os.getenv("SHEET_ID")
     service_account_data = os.getenv("GSPREAD_SERVICE_ACCOUNT", "")
-    print("sheet_id: ", sheet_id, "")
     csv_file = "spreadsheet.csv"
 
     # Open the public spreadsheet
