@@ -1,3 +1,3 @@
 # built recipies
-content/recetas/*
-public/*
+./content/recetas/*
+./public/*
