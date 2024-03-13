@@ -65,11 +65,13 @@ draft = false
 """
 
             # Replace spaces in title with underscores for filename
-            filename = f"{title.replace(' ', '_')}.md"
+            filename = f"content/recetas/{title.replace(' ', '_')}.md"
+            directory = os.path.dirname(filename)
+            if directory and not os.path.exists(directory):
+                os.makedirs(directory)
 
             # Create a separate Markdown file for each row
-            output_file = f"content/recetas/{filename}.md"
-            with open(output_file, 'w') as md_file:
+            with open(filename, 'w') as md_file:
                 md_file.write(markdown_content)
 
 if __name__ == "__main__":
