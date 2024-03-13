@@ -46,6 +46,10 @@ def create_markdown_files(csv_file):
 
             date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
 
+            # Create an itemized list for ingredients
+            ingredients_lines = ingredients.split('\n')
+            formatted_ingredients = '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
+
             # Create Markdown content
             markdown_content = f"""+++
 title = '{title}'
@@ -53,19 +57,17 @@ date = {date}
 draft = false
 +++
 
-## {title}
+**Dificultad:** {difficulty}\
+**Tiempo:** {time}\
+**Raciones:** {servings}
 
-**Dificultad:** {difficulty}  
-**Tiempo:** {time} minutos
-**Raciones:** {servings}  
+### Ingredientes
+{formatted_ingredients}
 
-### Ingredientes:
-{ingredients}
-
-### Preparación:
+### Preparación
 {preparation}
 
-#### Notas:
+#### Notas
 {notes}
 """
 
