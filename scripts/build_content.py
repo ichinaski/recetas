@@ -6,6 +6,7 @@ from datetime import datetime
 
 # Define column indexes
 DATE_INDEX = 0
+AUTHOR_INDEX = 1
 TITLE_INDEX = 2
 DIFFICULTY_INDEX = 3
 TIME_INDEX = 4
@@ -13,6 +14,7 @@ SERVINGS_INDEX = 5
 INGREDIENTS_INDEX = 6
 PREPARATION_INDEX = 7
 NOTES_INDEX = 8
+CATEGORY_INDEX = 9
 
 
 def open_sheet(sheet_id, service_account_data):
@@ -37,6 +39,7 @@ def create_markdown_files(csv_file):
         n = 0
         for row in csvreader:
             date_str = row[DATE_INDEX]
+            author = row[AUTHOR_INDEX]
             title = row[TITLE_INDEX]
             difficulty = row[DIFFICULTY_INDEX]
             time = row[TIME_INDEX]
@@ -44,6 +47,7 @@ def create_markdown_files(csv_file):
             ingredients = row[INGREDIENTS_INDEX]
             preparation = row[PREPARATION_INDEX]
             notes = row[NOTES_INDEX]
+            category = row[CATEGORY_INDEX] or 'Otros'  # TODO: delete me
 
             date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
 
@@ -51,15 +55,16 @@ def create_markdown_files(csv_file):
             ingredients_lines = ingredients.split('\n') if ingredients else []
             formatted_ingredients = '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
 
+            author = author.split('@')[0] if author else ''
+
             # Create Markdown content
             markdown_content = f"""+++
 title = '{title}'
 date = '{date}'
 draft = false
-categories = ['uno', 'dos']
-tags = ['t1', 't2']
+categories = ['{category}']
 [params]
-  author = 'John Smith'
+  author = '{author}'
 +++
 
 **Dificultad:** {difficulty}  |  **Tiempo:** {time}  |  **Raciones:** {servings}

@@ -6,18 +6,11 @@ defaultContentLanguage = 'es'
 sectionPagesMenu = "main"
 Paginate = 10 # this is set low for demonstrating with dummy content. Set to a higher number
 
-
 [taxonomies]
   category = 'categories'
-  tag = 'tags'
 
 [menus]
-[[menus.main]]
-    name = 'Tags'
-    pageRef = '/tags'
-    weight = 20
 [[menus.main]]
     name = 'Categorias'
     pageRef = '/categories'
     weight = 30
-
