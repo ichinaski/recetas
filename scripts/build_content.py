@@ -34,6 +34,7 @@ def create_markdown_files(csv_file):
         # Skip header row
         next(csvreader)
 
+        n = 0
         for row in csvreader:
             date_str = row[DATE_INDEX]
             title = row[TITLE_INDEX]
@@ -55,9 +56,15 @@ def create_markdown_files(csv_file):
 title = '{title}'
 date = '{date}'
 draft = false
+categories = ['uno', 'dos']
+tags = ['t1', 't2']
+[params]
+  author = 'John Smith'
 +++
 
 **Dificultad:** {difficulty}  |  **Tiempo:** {time}  |  **Raciones:** {servings}
+
+<!--more-->
 
 ### Ingredientes
 {formatted_ingredients}
@@ -70,7 +77,7 @@ draft = false
 """
 
             # Replace spaces in title with underscores for filename
-            filename = f"content/recetas/{title.replace(' ', '_')}.md"
+            filename = f"content/recetas/{title.replace(' ', '_')}_{n}.md"
             directory = os.path.dirname(filename)
             if directory and not os.path.exists(directory):
                 os.makedirs(directory)
@@ -78,6 +85,8 @@ draft = false
             # Create a separate Markdown file for each row
             with open(filename, 'w') as md_file:
                 md_file.write(markdown_content)
+
+            n = n+1
 
 if __name__ == "__main__":
     sheet_id = os.getenv("SHEET_ID")
