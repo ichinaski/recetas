@@ -55,7 +55,7 @@ def create_markdown_files(csv_file):
             ingredients_lines = ingredients.split('\n') if ingredients else []
             formatted_ingredients = '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
 
-            author = author.split('@')[0] if author else ''
+            author = author.split('@')[0] if author and '@' in author else ''
 
             # Create Markdown content
             markdown_content = f"""+++
