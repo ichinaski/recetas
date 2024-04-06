@@ -6,15 +6,15 @@ from datetime import datetime
 
 # Define column indexes
 DATE_INDEX = 0
-AUTHOR_INDEX = 1
-TITLE_INDEX = 2
-DIFFICULTY_INDEX = 3
-TIME_INDEX = 4
-SERVINGS_INDEX = 5
-INGREDIENTS_INDEX = 6
-PREPARATION_INDEX = 7
-NOTES_INDEX = 8
-CATEGORY_INDEX = 9
+#EMAIL_INDEX = 1
+AUTHOR_INDEX = 2
+TITLE_INDEX = 3
+CATEGORY_INDEX = 4
+DIFFICULTY_INDEX = 5
+TIME_INDEX = 6
+SERVINGS_INDEX = 7
+INGREDIENTS_INDEX = 8
+PREPARATION_INDEX = 9
 
 
 def open_sheet(sheet_id, service_account_data):
@@ -46,16 +46,12 @@ def create_markdown_files(csv_file):
             servings = row[SERVINGS_INDEX]
             ingredients = row[INGREDIENTS_INDEX]
             preparation = row[PREPARATION_INDEX]
-            notes = row[NOTES_INDEX]
             category = row[CATEGORY_INDEX] or 'Otros'  # TODO: delete me
 
             date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
-
-            # Create an itemized list for ingredients
-            ingredients_lines = ingredients.split('\n') if ingredients else []
-            formatted_ingredients = '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
-
-            author = author.split('@')[0] if author and '@' in author else ''
+            author = author.strip()
+            formatted_ingredients = format_ingredients(ingredients)
+            formatted_preparation = format_preparation(preparation)
 
             # Create Markdown content
             markdown_content = f"""+++
@@ -75,10 +71,7 @@ categories = ['{category}']
 {formatted_ingredients}
 
 ### Preparación
-{preparation}
-
-#### Notas
-{notes}
+{formatted_preparation}
 """
 
             # Replace spaces in title with underscores for filename
@@ -92,6 +85,15 @@ categories = ['{category}']
                 md_file.write(markdown_content)
 
             n = n+1
+
+def format_ingredients(ingredients):
+    ingredients_lines = ingredients.split('\n') if ingredients else []
+    return '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
+
+
+def format_preparation(preparation):
+    steps = [step for step in preparation.split('\n') if step]
+    return '\n'.join([f'{i+1}. {v}' for i, v in enumerate(steps)])
 
 if __name__ == "__main__":
     sheet_id = os.getenv("SHEET_ID")
