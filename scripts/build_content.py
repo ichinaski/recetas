@@ -87,8 +87,8 @@ categories = ['{category}']
             n = n+1
 
 def format_ingredients(ingredients):
-    ingredients_lines = ingredients.split('\n') if ingredients else []
-    return '\n'.join([f'- {ingredient}' for ingredient in ingredients_lines])
+    lines = [line for line in ingredients.split('\n') if line]
+    return '\n'.join([f'- {line}' for line in lines])
 
 
 def format_preparation(preparation):
