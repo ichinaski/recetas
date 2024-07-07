@@ -15,6 +15,7 @@ TIME_INDEX = 6
 SERVINGS_INDEX = 7
 INGREDIENTS_INDEX = 8
 PREPARATION_INDEX = 9
+NOTES_INDEX = 10
 
 
 def open_sheet(sheet_id, service_account_data):
@@ -47,6 +48,7 @@ def create_markdown_files(csv_file):
             ingredients = row[INGREDIENTS_INDEX]
             preparation = row[PREPARATION_INDEX]
             category = row[CATEGORY_INDEX] or 'Otros'  # TODO: delete me
+            notes = row[NOTES_INDEX]
 
             date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
             author = author.strip()
@@ -72,6 +74,9 @@ categories = ['{category}']
 
 ### Preparación
 {formatted_preparation}
+
+### Notas
+{notes}
 """
 
             # Replace spaces in title with underscores for filename
