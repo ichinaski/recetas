@@ -85,7 +85,7 @@ jobs:
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"          
       - name: Index with Pagefind
-        run: npx pagefind --site public --glob "recetas/*/index.html" --exclude-selectors "nav,header,footer"
+        run: npx pagefind --site public --glob "recetas/*/index.html" --root-selector "article"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
