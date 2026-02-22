@@ -1,6 +1,10 @@
 # Recetas de Amama
 
-A static recipe website built with Hugo and deployed to GitHub Pages. Recipes are submitted via Google Forms, stored in a Google Sheet, and automatically published on every form submission — no manual intervention needed.
+"Amama" means grandma in Basque. This is a recipe book I made for my mom, who has spent decades filling notebooks with handwritten recipes — family dishes, seasonal cooking, things passed down without ever being written down properly. The site gives her a simple way to digitalize that collection, and gives our family a place to preserve and rediscover those recipes.
+
+She submits recipes through a Google Form. Everything else is automatic — no accounts, no dashboards, no technical knowledge required on her end.
+
+Technically it is a static website built with Hugo and deployed to GitHub Pages. Recipes are submitted via Google Forms, stored in a Google Sheet, and automatically published on every form submission — no manual intervention needed.
 
 ## Architecture
 
