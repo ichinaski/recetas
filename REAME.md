@@ -1,3 +1,0 @@
-# Recetas
-
-TODO

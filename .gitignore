@@ -1,0 +1,11 @@
+# Generated build output — deployed via GitHub Actions, not committed
+public/
+
+# Generated recipe content — created by build_content.py at build time
+content/recetas/
+
+# Intermediate file created during content generation
+spreadsheet.csv
+
+# Hugo asset cache
+resources/_gen/
