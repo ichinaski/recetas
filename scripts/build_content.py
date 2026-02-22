@@ -39,19 +39,18 @@ def create_markdown_files(csv_file):
 
         n = 0
         for row in csvreader:
-            date_str = row[DATE_INDEX]
-            author = row[AUTHOR_INDEX]
-            title = row[TITLE_INDEX]
-            difficulty = row[DIFFICULTY_INDEX]
-            time = row[TIME_INDEX]
-            servings = row[SERVINGS_INDEX]
-            ingredients = row[INGREDIENTS_INDEX]
-            preparation = row[PREPARATION_INDEX]
-            category = row[CATEGORY_INDEX] or 'Otros'  # TODO: delete me
-            notes = row[NOTES_INDEX]
+            date_str = row[DATE_INDEX].strip()
+            author = row[AUTHOR_INDEX].strip()
+            title = row[TITLE_INDEX].strip()
+            difficulty = row[DIFFICULTY_INDEX].strip()
+            time = row[TIME_INDEX].strip()
+            servings = row[SERVINGS_INDEX].strip()
+            ingredients = row[INGREDIENTS_INDEX].strip()
+            preparation = row[PREPARATION_INDEX].strip()
+            category = row[CATEGORY_INDEX].strip() or 'Otros'  # TODO: delete me
+            notes = row[NOTES_INDEX].strip()
 
             date = datetime.strptime(date_str, '%m/%d/%Y %H:%M:%S').isoformat()
-            author = author.strip()
             formatted_ingredients = format_ingredients(ingredients)
             formatted_preparation = format_preparation(preparation)
 
@@ -92,12 +91,12 @@ categories = ['{category}']
             n = n+1
 
 def format_ingredients(ingredients):
-    lines = [line for line in ingredients.split('\n') if line]
+    lines = [line.strip() for line in ingredients.split('\n') if line.strip()]
     return '\n'.join([f'- {line}' for line in lines])
 
 
 def format_preparation(preparation):
-    steps = [step for step in preparation.split('\n') if step]
+    steps = [step.strip() for step in preparation.split('\n') if step.strip()]
     return '\n'.join([f'{i+1}. {v}' for i, v in enumerate(steps)])
 
 if __name__ == "__main__":
