@@ -54,6 +54,14 @@ def create_markdown_files(csv_file):
             formatted_ingredients = format_ingredients(ingredients)
             formatted_preparation = format_preparation(preparation)
 
+            meta_parts = [f'**Dificultad:** {difficulty}' if difficulty else None,
+                          f'**Tiempo:** {time}' if time else None,
+                          f'**Raciones:** {servings}' if servings else None]
+            meta_line = '  |  '.join(p for p in meta_parts if p)
+            section_ingredients = '### Ingredientes\n' + formatted_ingredients if formatted_ingredients else ''
+            section_preparation = '### Preparación\n' + formatted_preparation if formatted_preparation else ''
+            section_notes = '### Notas\n' + notes if notes else ''
+
             # Create Markdown content
             markdown_content = f"""+++
 title = '{title}'
@@ -64,18 +72,15 @@ categories = ['{category}']
   author = '{author}'
 +++
 
-**Dificultad:** {difficulty}  |  **Tiempo:** {time}  |  **Raciones:** {servings}
+{meta_line}
 
 <!--more-->
 
-### Ingredientes
-{formatted_ingredients}
+{section_ingredients}
 
-### Preparación
-{formatted_preparation}
+{section_preparation}
 
-### Notas
-{notes}
+{section_notes}
 """
 
             # Replace spaces in title with underscores for filename
