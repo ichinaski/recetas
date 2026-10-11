@@ -1,0 +1,86 @@
+media:
+  input: static/images
+  output: /images
+
+content:
+  - name: recetas
+    label: Recetas
+    type: collection
+    path: content/recetas
+    format: toml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, categories, date]
+      sort: [title, date]
+      default:
+        sort: title
+        order: asc
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+      - name: categories
+        label: Tipo de plato
+        type: select
+        required: true
+        options:
+          multiple: true
+          values:
+            - Aperitivos y tapas
+            - Arroces
+            - Aves
+            - Carne
+            - Ensaladas
+            - Guisos y Potajes
+            - Huevos y lácteos
+            - Legumbres
+            - Mariscos
+            - Pan y bollería
+            - Pasta
+            - Pescado
+            - Postres
+            - Salsas
+            - Sopas y cremas
+            - Verduras
+      - name: difficulty
+        label: Dificultad
+        type: select
+        options:
+          values: [Baja, Media, Alta]
+      - name: time
+        label: Tiempo
+        type: select
+        options:
+          values: [Menos de 30 min, 30-60 min, 60-120 min, Mas de 120 min]
+      - name: servings
+        label: Raciones
+        type: string
+        description: "Por ejemplo: 4 personas"
+      - name: ingredients
+        label: Ingredientes
+        type: string
+        list: true
+        description: Un ingrediente en cada línea
+      - name: steps
+        label: Preparación
+        type: text
+        list: true
+        description: Un paso en cada caja
+      - name: image
+        label: Foto
+        type: image
+      - name: body
+        label: Notas
+        type: rich-text
+      - name: author
+        label: Autor/a
+        type: string
+        default: Amama
+      - name: date
+        label: Fecha
+        type: date
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm:ss"

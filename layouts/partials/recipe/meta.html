@@ -1,0 +1,6 @@
+{{- /* Renders "Dificultad | Tiempo | Raciones" for a recipe page. */ -}}
+{{- $parts := slice -}}
+{{- with .Params.difficulty }}{{ $parts = $parts | append (printf "**Dificultad:** %s" .) }}{{ end -}}
+{{- with .Params.time }}{{ $parts = $parts | append (printf "**Tiempo:** %s" .) }}{{ end -}}
+{{- with .Params.servings }}{{ $parts = $parts | append (printf "**Raciones:** %s" .) }}{{ end -}}
+{{- with $parts }}{{ delimit . "  |  " | $.RenderString }}{{ end -}}

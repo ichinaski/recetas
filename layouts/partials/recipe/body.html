@@ -1,0 +1,17 @@
+{{- /* Full recipe body: meta line, ingredients, steps, and free-form notes (.Content). */ -}}
+{{- $md := "" -}}
+{{- with .Params.ingredients -}}
+  {{- $md = printf "%s### Ingredientes\n" $md -}}
+  {{- range . }}{{ $md = printf "%s- %s\n" $md . }}{{ end -}}
+  {{- $md = printf "%s\n" $md -}}
+{{- end -}}
+{{- with .Params.steps -}}
+  {{- $md = printf "%s### Preparación\n" $md -}}
+  {{- range $i, $s := . }}{{ $md = printf "%s%d. %s\n" $md (add $i 1) $s }}{{ end -}}
+  {{- $md = printf "%s\n" $md -}}
+{{- end -}}
+{{- with partial "recipe/meta.html" . }}<p>{{ . }}</p>{{ end }}
+{{ with .Params.image }}<img src="{{ . | relURL }}" alt="{{ $.Title }}" class="mw-100">{{ end }}
+{{ $md | .RenderString (dict "display" "block") }}
+{{ with .Content }}<h3 id="notas">Notas</h3>
+{{ . }}{{ end }}
