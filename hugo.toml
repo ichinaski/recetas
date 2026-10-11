@@ -4,6 +4,10 @@ title = 'Recetas de Amama'
 theme = 'ananke'
 defaultContentLanguage = 'es'
 sectionPagesMenu = "main"
+# Pages CMS writes dates in local time without an offset.
+timeZone = 'Europe/Madrid'
+# Never hide a recipe because its date looks like it's in the future.
+buildFuture = true
 [pagination]
   pagerSize = 10
 

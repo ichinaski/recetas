@@ -6,7 +6,7 @@
         {{ .Title }}
       </h1>
       <div class="nested-links f5 lh-copy nested-copy-line-height">
-        {{ .Summary }}
+        {{ with partial "recipe/meta.html" . }}<p>{{ . }}</p>{{ end }}
       </div>
     </div>
   </div>
