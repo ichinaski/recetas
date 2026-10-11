@@ -1,54 +1,48 @@
 # Recetas de Amama
 
-"Amama" means grandma in Basque. This is a recipe book I made for my mom, who has spent decades filling notebooks with handwritten recipes — family dishes, seasonal cooking, things passed down without ever being written down properly. The site gives her a simple way to digitalize that collection, and gives our family a place to preserve and rediscover those recipes.
+"Amama" means grandma in Basque. This is a recipe book I made for my mom, who has spent decades filling notebooks with handwritten recipes: family dishes, seasonal cooking, things passed down without ever being written down properly. The site gives her a simple way to digitalize that collection, and gives our family a place to preserve and rediscover those recipes.
 
-She submits recipes through a Google Form. Everything else is automatic — no accounts, no dashboards, no technical knowledge required on her end.
+She adds, edits and deletes recipes in [Pages CMS](https://pagescms.org), a simple web editor. Everything else is automatic, with no technical knowledge required on her end.
 
-Technically it is a static website built with Hugo and deployed to GitHub Pages. Recipes are submitted via Google Forms, stored in a Google Sheet, and automatically published on every form submission — no manual intervention needed.
+Technically it is a static website built with Hugo and deployed to GitHub Pages at [recetasdeamama.es](https://recetasdeamama.es).
 
 ## Architecture
 
 ```
-Google Form → Google Sheet → GitHub Actions → Hugo → GitHub Pages
+Pages CMS → commit to main → GitHub Actions → Hugo → GitHub Pages
 ```
 
-Recipes live entirely in a Google Sheet. When someone submits a form, a Google Apps Script fires a webhook to GitHub, which triggers a build. The build fetches all rows from the sheet, converts each one to a Hugo Markdown file, builds the static site, indexes it for search with Pagefind, and deploys to GitHub Pages.
-
-Nothing is committed to the repository — recipe content and the built site are both generated fresh on every build.
+Each recipe is a Markdown file in `content/recetas/`. Saving a recipe in Pages CMS commits that file to `main`, and every push to `main` rebuilds the site, indexes it for search with Pagefind, and deploys it to GitHub Pages.
 
 ### Key components
 
-**`scripts/build_content.py`** — downloads the Google Sheet as CSV and generates one Markdown file per recipe under `content/recetas/`. Handles author extraction, date formatting, and ingredient/preparation formatting.
+**`content/recetas/`** holds one file per recipe. Fields like category, difficulty, ingredients and preparation live in TOML front matter, and free-form notes go in the body.
 
-**`hugo.toml`** — site configuration: Spanish locale, ananke theme, category taxonomy, main menu.
+**`.pages.yml`** configures the Pages CMS editor: which fields exist, their Spanish labels, dropdown options, and where uploaded photos go (`static/images/`).
 
-**`layouts/`** — custom Hugo templates overriding the theme: recipe cards, category listing, and the search page.
+**`layouts/`** has custom Hugo templates overriding the ananke theme. `layouts/recetas/single.html` and `layouts/partials/recipe/` render a recipe from its front matter. The rest are recipe cards, category listing, and the search page.
 
-**`.github/workflows/hugo.yaml`** — the full CI/CD pipeline: installs Hugo and Dart Sass, fetches content from Google Sheets, builds the site, indexes with Pagefind, and deploys to GitHub Pages.
+**`hugo.toml`** is the site configuration: Spanish locale, ananke theme, category taxonomy, main menu. Dates are read as Madrid time, matching what Pages CMS writes.
 
-**`scripts/trigger_workflow.js`** — Google Apps Script installed on the spreadsheet. Fires a `repository_dispatch` event to GitHub on every form submission to trigger a rebuild.
+**`.github/workflows/hugo.yaml`** is the CI/CD pipeline: installs Hugo and Dart Sass, builds the site, indexes it with Pagefind, and deploys to GitHub Pages.
+
+**`scripts/migrate_from_sheet.py`** is the one-off script that moved the recipes from the old Google Form and Sheet setup into `content/recetas/`. It's kept for reference and isn't part of the build.
+
+## Editing recipes
+
+Open [app.pagescms.org](https://app.pagescms.org), pick the repo and edit on `main`. Collaborators can be invited by email from Pages CMS and don't need a GitHub account. Changes are live a minute or two after saving.
 
 ## Local development
 
 ### Prerequisites
 
 - [Hugo](https://gohugo.io/installation/) extended v0.156.0
-- Python 3 with `pip install -r scripts/requirements.txt`
 - Node.js (for `npx pagefind`)
-
-### Credentials
-
-You need the two secrets from the GitHub repo (Settings → Secrets and variables → Actions):
-
-```bash
-export SHEET_ID="your-sheet-id"
-export GSPREAD_SERVICE_ACCOUNT='{ ...service account json... }'
-```
 
 ### Clone
 
 ```bash
-git clone --recurse-submodules https://github.com/ichinaski/recetas-revamp.git
+git clone --recurse-submodules https://github.com/ichinaski/recetas.git
 ```
 
 The `--recurse-submodules` flag is required to pull the ananke theme.
@@ -56,6 +50,8 @@ The `--recurse-submodules` flag is required to pull the ananke theme.
 ### Build and run
 
 ```bash
-./scripts/build.sh   # fetch recipes, build site, index search
+./scripts/build.sh   # build site and index search
 ./scripts/run.sh     # serve at http://localhost:1313
 ```
+
+For quick previews while editing templates, `hugo server` works too (without search).
