@@ -20,12 +20,15 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
-def lines(text):
-    return [l.strip() for l in text.split("\n") if l.strip()]
+def multiline(text):
+    return text.replace("\r\n", "\n").strip()
 
 
 def toml_value(value):
-    # JSON strings/arrays of strings are valid TOML basic strings/arrays.
+    # Multi-line text as TOML literal strings for readability; everything else as
+    # JSON, whose strings/arrays are valid TOML basic strings/arrays.
+    if isinstance(value, str) and "\n" in value and "'''" not in value:
+        return f"'''\n{value}'''"
     if isinstance(value, list):
         if not value:
             return "[]"
@@ -42,8 +45,8 @@ def render(row):
         "difficulty": row[DIFFICULTY].strip(),
         "time": row[TIME].strip(),
         "servings": row[SERVINGS].strip(),
-        "ingredients": lines(row[INGREDIENTS]),
-        "steps": lines(row[PREPARATION]),
+        "ingredients": multiline(row[INGREDIENTS]),
+        "preparation": multiline(row[PREPARATION]),
     }
     front = "".join(f"{k} = {toml_value(v)}\n" for k, v in fields.items() if v)
     notes = row[NOTES].strip()

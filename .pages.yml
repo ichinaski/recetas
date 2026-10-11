@@ -60,14 +60,12 @@ content:
         description: "Por ejemplo: 4 personas"
       - name: ingredients
         label: Ingredientes
-        type: string
-        list: true
+        type: text
         description: Un ingrediente en cada línea
-      - name: steps
+      - name: preparation
         label: Preparación
         type: text
-        list: true
-        description: Un paso en cada caja
+        description: Un paso en cada párrafo
       - name: image
         label: Foto
         type: image

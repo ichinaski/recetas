@@ -1,11 +1,16 @@
-{{- /* Full recipe body: meta line, ingredients, steps, and free-form notes (.Content). */ -}}
+{{- /* Full recipe body: meta line, ingredients, preparation steps, and free-form notes (.Content). */ -}}
 {{- $md := "" -}}
-{{- with .Params.ingredients -}}
+{{- /* Ingredients and preparation are free text: one item per non-empty line. */ -}}
+{{- $ingredients := slice -}}
+{{- range split (.Params.ingredients | default "") "\n" }}{{ with strings.TrimSpace . }}{{ $ingredients = $ingredients | append . }}{{ end }}{{ end -}}
+{{- $steps := slice -}}
+{{- range split (.Params.preparation | default "") "\n" }}{{ with strings.TrimSpace . }}{{ $steps = $steps | append . }}{{ end }}{{ end -}}
+{{- with $ingredients -}}
   {{- $md = printf "%s### Ingredientes\n" $md -}}
   {{- range . }}{{ $md = printf "%s- %s\n" $md . }}{{ end -}}
   {{- $md = printf "%s\n" $md -}}
 {{- end -}}
-{{- with .Params.steps -}}
+{{- with $steps -}}
   {{- $md = printf "%s### Preparación\n" $md -}}
   {{- range $i, $s := . }}{{ $md = printf "%s%d. %s\n" $md (add $i 1) $s }}{{ end -}}
   {{- $md = printf "%s\n" $md -}}

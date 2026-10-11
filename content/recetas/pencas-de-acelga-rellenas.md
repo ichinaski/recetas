@@ -7,25 +7,23 @@ categories = [
 author = "Amama"
 difficulty = "Baja"
 time = "30-60 min"
-ingredients = [
-  "12 pencas de acelgas frescas",
-  "Unos 200gr de quesos, uno que aporte sabor y otro que funda muy bien (o simplemente uno que funda bien)",
-  "100gr de jamón cocido (o pastrami, jamon ibérico..)",
-  "Pesto (opcional )",
-  "1 huevo",
-  "Harina",
-  "Sal",
-  "Aceite de oliva virgen extra",
-]
-steps = [
-  "Cortar las pencas después de limpiaralas, en trozos de unos 7cm de largo.",
-  "Cocerlas en agua hirviendo con un poco de sal durante 7'",
-  "Cortar el queso en láminas finas.",
-  "Montar las pencas colocando una cucharadita de pesto (opcional), queso y jamón entre 2 pencas.",
-  "Rebozar en harina y huevo y freir .",
-  "Escurrir y servir calientes.",
-  "Si se prefiere, hacer una salsa blanca, echarla por encima y dejar cocer unos minutos.",
-]
+ingredients = '''
+12 pencas de acelgas frescas
+Unos 200gr de quesos, uno que aporte sabor y otro que funda muy bien (o simplemente uno que funda bien)
+100gr de jamón cocido (o pastrami, jamon ibérico..)
+Pesto (opcional )
+1 huevo
+Harina 
+Sal 
+Aceite de oliva virgen extra'''
+preparation = '''
+Cortar las pencas después de limpiaralas, en trozos de unos 7cm de largo.
+Cocerlas en agua hirviendo con un poco de sal durante 7'
+Cortar el queso en láminas finas.
+Montar las pencas colocando una cucharadita de pesto (opcional), queso y jamón entre 2 pencas.
+Rebozar en harina y huevo y freir .
+Escurrir y servir calientes.
+Si se prefiere, hacer una salsa blanca, echarla por encima y dejar cocer unos minutos.'''
 +++
 
 Salsa Blanca: Picar un poco de cebolla y freir en una sartén unos minutos, añadir un machado de ajo, una cucharada de harina y agua caliente y un chorro de vino blanco (opcional).
